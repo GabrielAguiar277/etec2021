@@ -138,3 +138,48 @@ SELECT UPPER(nm_cliente) AS 'NOME DO CLIENTE',
 FROM tb_cliente AS C
      INNER JOIN tb_telefone_cliente as T  ON C.ID_CLIENTE = T.ID_CLIENTE
 WHERE CPF_CLIENTE = '555.666.111-00';
+
+
+
+Toda a junção precisa de duas tabelas
+
+se eu colocar um apelido em um campo, tenho que usa-lo
+de ponta a ponta do select
+
+SELECT date_format(VEND.dt_venda, '%d/%m/%y') AS 'Data da Venda',
+       PAG.nm_tp_pagamento AS 'Forma de Pagamento'
+FROM tb_venda AS VEND
+     INNER JOIN tb_tipo_pagamento AS PAG
+           ON VEND.tp_pagamento = pag.id_tp_pagamento
+WHERE vend.DT_VENDA >= '2020-04-01'
+ORDER BY PAG.nm_tp_pagamento asc;
+
+SELECT date_format(VEND.dt_venda, '%d/%m/%y') AS 'Data da Venda',
+       PAG.nm_tp_pagamento AS 'Forma de Pagamento',
+       CLI.nm_cliente AS 'NOME DO CLIENTE',
+       tel.TEL_CLIENTE as 'telefone cliente'
+FROM tb_venda AS VEND
+     INNER JOIN tb_tipo_pagamento PAG
+           ON VEND.tp_pagamento = PAG.id_tp_pagamento
+     INNER JOIN TB_CLIENTE AS CLI
+           ON CLI.id_cliente = VEND.id_cliente
+     INNER JOIN TB_TELEFONE_CLIENTE AS TEL
+           ON TEL.ID_CLIENTE = CLI.ID_CLIENTE
+WHERE vend.DT_VENDA >= '2020-04-01'
+ORDER BY PAG.nm_tp_pagamento asc;
+
+SELECT date_format(VEND.dt_venda, '%d/%m/%y') AS 'Data da Venda',
+       PAG.nm_tp_pagamento AS 'Forma de Pagamento',
+       CLI.nm_cliente AS 'NOME DO CLIENTE',
+       tel.TEL_CLIENTE as 'telefone cliente'
+FROM TB_CLIENTE as cli
+     INNER JOIN TB_TELEFONE_CLIENTE AS TEL
+           ON TEL.ID_CLIENTE = CLI.ID_CLIENTE
+     INNER JOIN TB_venda AS vend
+           ON CLI.id_cliente = VEND.id_cliente
+     inner JOIN TB_TIPO_PAGAMENTO as pag
+           ON PAG.ID_TP_PAGAMENTO = VEND.TP_PAGAMENTO
+WHERE vend.DT_VENDA >= '2020-04-01'
+ORDER BY PAG.nm_tp_pagamento asc;
+
+
